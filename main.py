@@ -14,6 +14,7 @@ class Patient(BaseModel):
     city: str
     age: int
 
+# Function to load existing patient data from a JSON file
 def load_Data():
     with open("./patients.json", "r") as f:
         return json.load(f)
