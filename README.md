@@ -5,11 +5,7 @@ This repository is **revision-oriented** and is being used for **revising Pydant
 ## 📌 Purpose
 - Quick revision of **Pydantic basics**
 - Understanding **schemas, validation, and data handling**
-- Hands-on practice while revising concepts
-
-## 🚧 Current Status
-- Revision in progress
-- Content will be added and refined gradually
+- Hands-on practice while revising concepts like fields, annotations, optional , field validators, model validators, Annotations, Bultin types etc
 
 ## 🛠️ Tech Stack
 - Python
