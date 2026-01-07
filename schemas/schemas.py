@@ -62,8 +62,8 @@ class PatientBankName(BaseModel):
     amount:int = 50000
     email: EmailStr 
 
-    # model_validator() ->  valiudates the fields
-    @model_validator(mode='after')
+    # model_validator() ->  valiudates the multiple fields at a time
+    @model_validator(mode='after') # mode : it specifies the validation the moment of validation of field(either before the type conversion(if any) of after the conversion)
     def amount_validator(cls, model):
         if model.amount <= 0 and model.age < 18:
             raise ValueError("Cant Proceed , either the amount is less than 0 or age is below 18 ")
