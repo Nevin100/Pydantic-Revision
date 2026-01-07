@@ -1,5 +1,5 @@
-from pydantic import BaseModel
-from typing import List, Optional
+from pydantic import BaseModel, EmailStr, Field
+from typing import List, Optional, Annotated
 # Models for the Patient entity
 class PatientModel(BaseModel):
     id: str
@@ -9,6 +9,7 @@ class PatientModel(BaseModel):
 
 # Here, all the above fields are mandatory. If any field is missing, Pydantic will raise a validation error.
 
+# Example 2:
 class PatientsModel(BaseModel):
     id: str
     name: str
@@ -16,3 +17,17 @@ class PatientsModel(BaseModel):
     age: int
     diseases: List[str] = None # Optional in nature and if not given, then by default the value is None
     address: Optional[str]
+
+# Example 3:
+class NewModels(BaseModel):
+    id:str
+    name:str
+    email:EmailStr # Built in Type Validation present in Pydantic
+    weight: float = Field(gt = 0)  # Field Attribute used to validate the data
+    phone: int
+    age: int = Field(gt = 0, lt = 60)  # Range of Age : (0,60)
+    allergies: List[str] = Field(max_length = 5) # Maximum Length of Diseases : 5
+
+#Example 4:
+class Patent(BaseModel):
+    name: Annotated[str, Field(max_length = 20,default = 'None', title = "Name of the Patent", description = "Make sure the name to be less than 20 Characters")]
