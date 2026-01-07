@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
 from typing import List, Optional, Annotated
 # Models for the Patient entity
 class PatientModel(BaseModel):
@@ -31,3 +31,42 @@ class NewModels(BaseModel):
 #Example 4:
 class Patent(BaseModel):
     name: Annotated[str, Field(max_length = 20,default = 'None', title = "Name of the Patent", description = "Make sure the name to be less than 20 Characters")]
+    # Annotated : helps to include further details regarding the field
+
+# Example 5: PS : Check whther the email consists the 'HDFC | ICICI bak name (eg : abdfg@hdfc.com..)
+class PatientBank(BaseModel): 
+    id: str
+    name: str
+    age: int
+    amount:int = 50000
+    email: EmailStr 
+
+    # field_validator() ->  valiudates the fields
+    @field_validator('email')
+    @classmethod
+    def email_validator(cls, value):
+        valid_domains = ['hdfc.com', 'icici.com']
+
+        domain_names = value.split('@')[-1] # abdf@gmail.com --> abdf & gmail.com : [-1] index
+        if domain_names not in valid_domains:
+            raise ValueError("Not a Valid Bank Domain")
+        
+        return value
+
+# Example 6: PS : no check multiple fields and validate them
+
+class PatientBankName(BaseModel): 
+    id: str
+    name: str
+    age: int
+    amount:int = 50000
+    email: EmailStr 
+
+    # model_validator() ->  valiudates the fields
+    @model_validator(mode='after')
+    def amount_validator(cls, model):
+        if model.amount <= 0 and model.age < 18:
+            raise ValueError("Cant Proceed , either the amount is less than 0 or age is below 18 ")
+        else:
+            return model
+        
